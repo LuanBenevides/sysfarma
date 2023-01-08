@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Home page</title>
+	<style>
+.dTable {
+	padding: 0px;
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+.form_inNotShow {
+	display: none;
+}
+
+.form_inShow {
+	display: block;
+}
+
+.pesqui_bar {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.table_notShow {
+	display: none;
+}
+
+table_Show {
+	display: block;
+}
+</style>
+	<script src="../resources/scripts/menu.js"></script>
+</h:head>
+<h:body>
+	<div class="pesqui_bar">
+		<p:commandButton value="Pesquisar medicamentos"
+			onclick="mostrarTabelaMedicamentos()" />
+	</div>
+	<h:form id="frm" style="padding: 120px;margin-top: -120px;">
+
+		<div id="frmForm" class="form_inShow">
+			<p:messages autoUpdate="true" />
+
+			<p:panelGrid columns="2">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Cadastro de medicamentos</p:column>
+					</p:row>
+				</f:facet>
+				<p:outputLabel value="Medicamento" />
+				<p:inputText size="30" value="#{medicamentoMB.medicamento.nome}"
+					required="true" label="Medicamento" />
+
+				<p:outputLabel value="Apresentação" />
+				<p:inputText size="30"
+					value="#{medicamentoMB.medicamento.apresentacao}" required="true"
+					label="Apresentação" />
+
+				<p:outputLabel value="Laboratório" />
+				<p:selectOneMenu value="#{medicamentoMB.medicamento.laboratorio}"
+					required="true" label="Laboratório">
+					<f:selectItem itemLabel="Selecione o laboratório"
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Bayer" itemValue="BAYER" />
+					<f:selectItem itemLabel="Pratidonaduzzi" itemValue="PRATIDONADUZZI" />
+					<f:selectItem itemLabel="E-MS" itemValue="E-MS" />
+					<f:selectItem itemLabel="Legrand" itemValue="LEGRAND" />
+					<f:selectItem itemLabel="Eurofarma" itemValue="EUROFARMA" />
+					<f:selectItem itemLabel="Cimed" itemValue="CIMED" />
+					<f:selectItem itemLabel="Teuto" itemValue="TEUTO" />
+					<f:selectItem itemLabel="Neo Química" itemValue="NEO QUIMICA" />
+					<f:selectItem itemLabel="Actavis" itemValue="ACTAVIS" />
+					<f:selectItem itemLabel="Nova Química" itemValue="NOVA QUIMICA" />
+					<f:selectItem itemLabel="Biossintética" itemValue="BIOSSINTETICA" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Registro MS" />
+				<p:inputMask mask="9.9999.9999.999-9" size="13"
+					value="#{medicamentoMB.medicamento.registro}" required="true"
+					label="Registro MS" />
+
+				<p:outputLabel value="Preço" />
+				<p:inputText size="4" value="#{medicamentoMB.medicamento.preco}"
+					required="true">
+					<f:convertNumber minFractionDigits="2" locale="pt_BR"
+						minIntegerDigits="0" />
+				</p:inputText>
+
+
+				<p:commandButton value="Limpar formulário"
+					action="#{usuarioMB.carregar}" update=":frm" process="@this" />
+
+				<p:commandButton value="Cadastrar"
+					action="#{medicamentoMB.adicionar}" update="frm" />
+			</p:panelGrid>
+		</div>
+		<hr />
+
+		<div id="medTabel" class="table_notShow">
+			<p:dataTable value="#{medicamentoMB.medicamentos}" var="m"
+				id="tabela" paginator="true" paginatorPosition="bottom" rows="10" styleClass="dTable">
+
+				<p:column headerText="Medicamento" sortBy="m.nome" filterBy="#{m.nome}" width="auto" filterMatchMode="contains"
+					style="font-size: 16px;" 
+					>
+					<p:outputLabel value="#{m.nome}" />
+				</p:column>
+
+				<p:column headerText="Apresentação" width="auto">
+					<p:outputLabel value="#{m.apresentacao}" />
+				</p:column>
+
+				<p:column headerText="Laboratório" width="auto">
+					<p:outputLabel value="#{m.laboratorio}" />
+				</p:column>
+
+				<p:column headerText="Registro MS" width="auto">
+					<p:outputLabel value="#{m.registro}" />
+				</p:column>
+
+				<p:column headerText="Preço" width="auto">
+					<p:outputLabel value="#{m.preco}">
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="" width="auto">
+					<p:commandButton icon="ui-icon-pencil" update="@form"
+						process="@this">
+						<f:setPropertyActionListener value="#{m}"
+							target="#{medicamentoMB.medicamento}" />
+					</p:commandButton>
+
+					<p:commandButton action="#{medicamentoMB.excluir}"
+						icon="ui-icon-trash" update="tabela" process="@this">
+						<f:setPropertyActionListener value="#{m}"
+							target="#{medicamentoMB.medicamento}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</div>
+	</h:form>
+</h:body>
+</html>

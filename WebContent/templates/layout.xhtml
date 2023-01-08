@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<title>Sysfarma</title>
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="80" resizable="true"
+			styleClass="panel" style="border: none;">
+			<ui:insert name="menu" />
+		</p:layoutUnit>
+				
+		<p:layoutUnit position="center" style="border: none;">
+			<ui:insert name="novoUsuarioForm" />
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="south" size="100" resizable="true"
+			style="border: none;">
+			<p:layout>
+				<p:layoutUnit position="west" size="45%" style="border: none;">
+
+				</p:layoutUnit>
+				<p:layoutUnit position="center" size="20%" style="border: none;">
+					<ui:insert name="footer" />
+				</p:layoutUnit>
+			</p:layout>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

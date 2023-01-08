@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<h:outputStylesheet library="css" name="estilo.css" />
+		<title>Novo usuario</title>
+		<style>
+form {
+	border: solid 1px #ffffff;
+}
+
+td {
+	border: none !important;
+}
+</style>
+	</h:head>
+	<h:body>
+		<div>
+			<h:form id="form">
+				<p:messages autoUpdate="true" />
+				<p:panelGrid style="margin-top:20px;">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="4">Cadastro de usuário</p:column>
+						</p:row>
+					</f:facet>
+
+					<p:row>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="Nome completo" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:inputText value="#{usuarioMB.usuario.nomeCompleto}"
+								required="true" label="Nome completo" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="Função" />
+						</p:column>
+						<p:column style="font-weight: bold;left: 10px;">
+							<p:selectOneMenu value="#{usuarioMB.usuario.funcao}"
+								required="true" label="Função">
+								<f:selectItem itemLabel="Aprendiz" itemValue="Aprendiz" />
+								<f:selectItem itemLabel="Estagiário" itemValue="Estagiário" />
+								<f:selectItem itemLabel="Ajudante de farmácia"
+									itemValue="Ajudante de farmácia" />
+								<f:selectItem itemLabel="Auxiliar farmacêutico"
+									itemValue="auxiliar farmacêutico" />
+								<f:selectItem itemLabel="Farmacêutico" itemValue="Farmacêutico" />
+								<f:selectItem itemLabel="Atendente de farmácia"
+									itemValue="Atendente de farmácia" />
+								<f:selectItem itemLabel="Gerente" itemValue="Gerente" />
+								<f:selectItem itemLabel="Diretor" itemValue="Diretor" />
+								<f:selectItem itemLabel="Outros" itemValue="Outros" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="E-mail" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:inputText value="#{usuarioMB.usuario.email}" required="true"
+								label="E-mail" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="Telefone" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:inputMask mask="(99) 9 9999.9999" size="20"
+								value="#{usuarioMB.usuario.telefone}" required="true"
+								label="Telefone" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="Nome de usuário" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:inputText value="#{usuarioMB.usuario.nomeDeUsuario}"
+								required="true" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:outputLabel value="Senha" />
+						</p:column>
+						<p:column style="font-weight: bold;">
+							<p:password value="#{usuarioMB.usuario.senha}" label="Senha"
+								required="true" maxlength="16" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+
+						<p:column style="font-weight: bold;">
+							<p:commandButton value="Cadastrar"
+								action="#{usuarioMB.adicionar}" update="form tabela" />
+						</p:column>
+
+						<p:column style="font-weight: bold;">
+							<p:commandButton value="Limpar formulário"
+								action="#{usuarioMB.carregar}" update=":form" process="@this" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<hr style="margin-top: 20px; margin-bottom: 20px;" />
+
+				<p:panel>
+					<p:inputText placeholder="Buscar por nome"
+						value="#{usuarioMB.searchByNome.findBynome}" />
+					<p:commandButton icon="ui-icon-search" value="buscar"
+						action="#{usuarioMB.buscarPorNome}" update="tabela" process="@this"/>
+				</p:panel>
+
+				<p:dataTable value="#{usuarioMB.usuarios}" var="u" id="tabela"
+					paginator="true" rows="3" style="text-align: center;">
+
+					<p:column headerText="Id" width="200">
+						<p:outputLabel value="#{u.id}" />
+					</p:column>
+
+					<p:column headerText="Nome de usuário" width="200">
+						<p:outputLabel value="#{u.nomeDeUsuario}" />
+					</p:column>
+
+					<p:column headerText="Nome completo" width="200">
+						<p:outputLabel value="#{u.nomeCompleto}" />
+					</p:column>
+
+					<p:column headerText="E-mail" width="200">
+						<p:outputLabel value="#{u.email}" />
+					</p:column>
+
+					<p:column headerText="Telefone" width="200">
+						<p:outputLabel value="#{u.telefone}" />
+					</p:column>
+
+					<p:column headerText="Função: " width="200">
+						<p:outputLabel value="#{u.funcao}" />
+					</p:column>
+
+					<p:column headerText="" width="100">
+						<p:commandButton icon="ui-icon-pencil" update="@form"
+							process="@this">
+							<f:setPropertyActionListener value="#{u}"
+								target="#{usuarioMB.usuario}" />
+						</p:commandButton>
+
+						<p:commandButton action="#{usuarioMB.excluir}"
+							icon="ui-icon-trash" update="tabela" process="@this">
+							<f:setPropertyActionListener value="#{u}"
+								target="#{usuarioMB.usuario}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</h:body>
+</ui:composition>
